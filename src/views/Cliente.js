@@ -73,7 +73,7 @@ const Cliente = () => {
             key: 200,
         },
         {
-            title: 'Referecia Pago',
+            title: 'Referencia Pago',
             dataIndex: 'refpago',
             key: 300,
         },
@@ -123,7 +123,7 @@ const Cliente = () => {
                 </div>
                 <section className="cliente__App__pagos">
                     <h3> PAGOS </h3>
-                    <p>STATUS PAGO 8/60</p>
+                    <p>ESTATUS DE PAGO 8/60</p>
                     <div>
                         <Table
                             dataSource={pagos}
