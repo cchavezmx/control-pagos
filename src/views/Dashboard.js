@@ -14,7 +14,7 @@ const Dashboard = () => {
                     <button className="btb">Añadir Cliente</button>
                 </span>
             </section>
-            <section>
+            <section className="cards">
                 {
                     proyectos.map(({ proyectName }, index) => {
                         return(

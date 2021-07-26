@@ -48,3 +48,17 @@
     
     
 }
+
+@media (max-width: 60rem){
+    .cards{
+        padding: 0;
+    }
+
+    .card__proyectos{    
+
+        &__container{
+            width: 260px;
+        }
+    
+    }
+}
