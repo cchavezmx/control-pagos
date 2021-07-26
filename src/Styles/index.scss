@@ -27,6 +27,43 @@ code {
     
   }
 
+  .dashboard__header{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 4rem;
+
+    span{
+      margin: 4px;
+    }
+
+    button{
+      margin: 2px;
+      background-color: white;
+      color: var(--esmeralda);
+      border: 1px solid var(--esmeralda);
+      padding: 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover{
+      background-color: var(--esmeralda);
+      color: white;
+    }
+
+    input{
+      border: none;
+      padding: 0.65rem;
+      border-radius: 4px;
+      margin: 4px;
+      width: 12rem;
+      box-shadow: var(--shadow);
+
+    }
+
+    
+  }
+
 }
 
 @import './cardproyectos.scss';

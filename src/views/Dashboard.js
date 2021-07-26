@@ -7,6 +7,13 @@ const Dashboard = () => {
 
     return(
         <div id="Dashboard">
+            <section className="dashboard__header">
+                <input placeholder="Buscar Cliente" />
+                <span>
+                    <button className="btn">Añadir Proyecto</button>
+                    <button className="btb">Añadir Cliente</button>
+                </span>
+            </section>
             <section>
                 {
                     proyectos.map(({ proyectName }, index) => {
