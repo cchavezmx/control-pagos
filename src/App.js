@@ -6,9 +6,11 @@ import 'Components/CardProyectos'
 // rutas ahora improvisado
 import Dashboard from 'views/Dashboard'
 import Proyecto from 'views/Proyecto'
+import Cliente from 'views/Cliente'
 
 
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
@@ -16,7 +18,6 @@ function App() {
         <a href="/" >
           <div></div>
         </a>
-
       </header>
 
       <Router>
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route path="/proyecto/:slug">
             <Proyecto />
+          </Route>
+          <Route path="/cliente/:slug">
+            <Cliente />
           </Route>
         </Switch>
       </Router>
