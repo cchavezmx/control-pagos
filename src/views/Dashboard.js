@@ -1,11 +1,23 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-
-import { proyectos } from 'Models/proyectos'
 import CardProyectos from 'Components/CardProyectos'
+
+import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
 
 const Dashboard = () => {
 
-    return(
+  const state = useMayaState()
+  const dispatch = useMayaDispatch()
+
+  useEffect(() => {
+    dispatch('GET_PROYECTOS')
+  }, [])
+
+  const { proyectos } = state.context
+
+  console.log(proyectos)
+
+  return (
         <div id="Dashboard">
             <section className="dashboard__header">
                 <input placeholder="Buscar Cliente" />
@@ -16,17 +28,17 @@ const Dashboard = () => {
             </section>
             <section className="cards">
                 {
-                    proyectos.map(({ proyectName }, index) => {
-                        return(
-                        <Link key={index + proyectName } to={`/proyecto/KUXTAL 1`} >
-                            <CardProyectos name={ proyectName }/>
-                        </Link>
-                        )
-                    })
+                  state.matches('success') && proyectos.map(({ title, _id }) => {
+                    return (
+                      <Link key={_id} to={`/proyecto/${_id}`} >
+                          <CardProyectos name={ title }/>
+                      </Link>
+                    )
+                  })
                 }
             </section>
         </div>
-    )
+  )
 }
 
 export default Dashboard

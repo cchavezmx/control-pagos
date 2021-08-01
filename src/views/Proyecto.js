@@ -1,42 +1,40 @@
-import { Table } from 'antd';
+import { Table } from 'antd'
 import { clientes } from 'Models/clients'
 import { useParams, useHistory } from 'react-router-dom'
 
-
 const Proyecto = () => {
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'clientName',
+      key: 1
+    },
+    {
+      title: 'Lote',
+      dataIndex: 'lote',
+      key: 2
+    },
+    {
+      title: 'Manzana',
+      dataIndex: 'mzn',
+      key: 3
+    },
+    {
+      title: 'Precio Total',
+      dataIndex: 'precioTotal',
+      key: 4
+    },
+    {
+      title: 'Financiamiento pendiente',
+      dataIndex: 'mensaalidad',
+      key: 5
+    }
+  ]
 
-    const columns = [
-        {
-          title: 'Nombre',
-          dataIndex: 'clientName',
-          key: 1,
-        },
-        {
-          title: 'Lote',
-          dataIndex: 'lote',
-          key: 2,
-        },
-        {
-          title: 'Manzana',
-          dataIndex: 'mzn',
-          key: 3,
-        },
-        {
-          title: 'Precio Total',
-          dataIndex: 'precioTotal',
-          key: 4,
-        },
-        {
-          title: 'Financiamiento pendiente',
-          dataIndex: 'mensaalidad',
-          key: 5,
-        },
-      ];
+  const { slug } = useParams()
+  const { push, goBack } = useHistory()
 
-    const { slug } = useParams()
-    const { push, goBack } = useHistory()
-
-       return (
+  return (
         <div className="proyecto__container">
             <section className="proyecto__header">
                 <h3>Proyecto: { slug }</h3>
@@ -47,7 +45,7 @@ const Proyecto = () => {
                     <p>Ventas Totales:</p>
                     <p>$15,838,779.00</p>
                   </span>
-                  
+
                   <span>
                   <p>Total Financiado:</p>
                   <p> $15,838,779.00 </p>
@@ -66,20 +64,20 @@ const Proyecto = () => {
                 </section>
             </section>
             <section className="proyecto__table">
-                <Table 
-                  dataSource={clientes} 
+                <Table
+                  dataSource={clientes}
                   columns={columns}
                   onRow={(record, rowIndex) => {
                     return {
-                      onClick: () => push({ pathname: `/cliente/${ record.clientName }`})
+                      onClick: () => push({ pathname: `/cliente/${record.clientName}` })
                     }
                   }}
-                  
+
                   ></Table>
             </section>
 
         </div>
-    )
+  )
 }
 
 export default Proyecto
