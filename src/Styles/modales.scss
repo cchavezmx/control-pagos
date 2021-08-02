@@ -1,0 +1,106 @@
+.modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__container{
+  
+  width: 100vh;
+  height: auto;
+  z-index: 20;
+}
+
+.modal__black__drop{
+  background-image: linear-gradient(60deg, #29323cea 0%, #485563be 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vh;
+  height: 100%;
+  z-index: -10;
+}
+
+.modal__body{
+  position: absolute;
+  background-color: var(--background);
+  border-radius: 4px;
+  left: calc(35% + 1em);
+  top: calc(10px + 1em);
+  width: 400px;
+  height: fit-content;
+  padding: 8px;
+  color: var(--black);
+
+  p{
+    color: #ee5253;
+    font-weight: bold;
+  }
+  
+  form{
+    margin-bottom: 10px;
+  }
+
+  form > fieldset {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    border: 1px solid #8395a7;
+    margin-bottom: 10px;
+    
+  }
+  
+  label{
+    flex-basis: 100%;
+    width: 100%;
+    padding: 0.2rem;
+    
+  }
+
+  input{
+    width: 100%;
+    padding: 0.65rem;
+    border: transparent 1px solid;
+  }
+
+  button{
+    margin: 2px;
+    background-color: white;
+    color: var(--esmeralda);
+    border: 1px solid var(--esmeralda);
+    padding: 0.65rem;
+    width: 10rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover{
+    background-color: var(--esmeralda);
+    color: white;
+    width: 10rem;
+  }
+  
+}
+
+.modal__footer{
+  display: flex;
+  justify-content: center;
+}
+
+.error__message{
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: var(--rojo);
+}
+
+@media (max-width: 60rem){
+  .modal__body{
+    left: 30px;
+    width: 300px;
+
+    button{
+      width: 8rem;
+    }
+  }
+}

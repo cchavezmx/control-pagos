@@ -1,0 +1,40 @@
+.ico{
+  
+
+  &__add__user{
+    content: "";
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+
+    &::after{
+      content: url('../assets/icons/user-plus.svg');
+      width: 86px;
+      height: 86px;
+
+    }
+
+    &:hover{
+      border: 2px solid transparent;
+    }
+
+  }
+}
+
+.button__acordeon{
+  background-color: var(--esmeralda);
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: inline;
+    
+
+  &::before{
+    content: url("../assets/icons/angle-down.svg");
+    
+  }
+
+}

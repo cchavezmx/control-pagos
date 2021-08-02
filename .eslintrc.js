@@ -20,8 +20,8 @@ module.exports = {
     'babel'
   ],
   rules: {
-    'react/jsx-uses-react': 'error',
-    'react/jsx-uses-vars': 'error',
+    'react/jsx-uses-react': 'warn',
+    'react/jsx-uses-vars': 'warn',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'no-trailing-spaces': 'off',

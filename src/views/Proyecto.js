@@ -1,79 +1,84 @@
-import { Table } from 'antd'
-import { clientes } from 'Models/clients'
-import { useParams, useHistory } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+// import { clientes } from 'Models/clients'
 
-const Proyecto = () => {
-  const columns = [
-    {
-      title: 'Nombre',
-      dataIndex: 'clientName',
-      key: 1
-    },
-    {
-      title: 'Lote',
-      dataIndex: 'lote',
-      key: 2
-    },
-    {
-      title: 'Manzana',
-      dataIndex: 'mzn',
-      key: 3
-    },
-    {
-      title: 'Precio Total',
-      dataIndex: 'precioTotal',
-      key: 4
-    },
-    {
-      title: 'Financiamiento pendiente',
-      dataIndex: 'mensaalidad',
-      key: 5
-    }
-  ]
+import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
 
-  const { slug } = useParams()
-  const { push, goBack } = useHistory()
+const Proyecto = ({ match, history }) => {
+
+  const state = useMayaState()
+  const dispatch = useMayaDispatch()
+  
+  const { slug } = match.params
+
+  useEffect(() => {
+    dispatch('GET_DATA', { id: slug })
+  }, [match])
+
+  const { proyecto, lotes } = state.context
+
+  // 1preimero obetenemos los clientes
+  console.log(lotes, history)
 
   return (
+        // @params proyecto css
         <div className="proyecto__container">
             <section className="proyecto__header">
-                <h3>Proyecto: { slug }</h3>
-                <button onClick={() => goBack() }>Regresar</button>
-                <section>
 
-                  <span>
-                    <p>Ventas Totales:</p>
-                    <p>$15,838,779.00</p>
-                  </span>
-
-                  <span>
-                  <p>Total Financiado:</p>
-                  <p> $15,838,779.00 </p>
-                  </span>
-
-                  <span>
-                  <p>Cobranza del mes:</p>
-                  <p> $15,838,779.00 </p>
-                  </span>
-
-                  <span>
-                  <p>Financimiento Pendiente:</p>
-                  <p> $15,838,779.00 </p>
-                  </span>
-
+              <div className="proyecto__header__title">
+                { state.matches('success') && <h3>{ proyecto?.title }</h3>}
+                <Link 
+                  to={{ 
+                    pathname: `/proyecto/${proyecto._id}/cliente/nuevo`,
+                    state: { proyecto: proyecto.title }
+                  }}>
+                  <div type="button" className="ico__add__user"></div>
+                  
+                </Link>
+              </div>
+          
+                <section className="proyecto__data__info">
+                    {/* INFORMACION ESTATISTICO DEL PROYECTO */}
                 </section>
             </section>
-            <section className="proyecto__table">
-                <Table
-                  dataSource={clientes}
-                  columns={columns}
-                  onRow={(record, rowIndex) => {
-                    return {
-                      onClick: () => push({ pathname: `/cliente/${record.clientName}` })
-                    }
-                  }}
 
-                  ></Table>
+            <section className="proyecto__table">
+              <table>
+                <tr className="head__data__table">
+                  <th>Nombre</th>
+                  <th>Lote</th>
+                  <th>Manzana</th>
+                  <th>Precio Total</th>
+                </tr>
+                {/* <tr> */}
+                  {
+                    state.matches('success') &&
+                    Object.values(lotes)
+                      .map((item) => {
+                        return (
+                          <tr 
+                            key={item._id} 
+                            className="tabla__data"
+                            onClick={() => history.push({ pathname: `/cliente/${item._id}`, state: { item } })}
+                            >
+                            <td>{ item.nombre }</td>
+                          {
+                            item.lotes.map(lote => {
+                              return (
+                                <>
+                                <td key={lote._id}>{ lote.lote }</td>
+                                <td key={lote.manzana}>{ lote.lote }</td>
+                                <td key={lote.precioTotal}>{ lote.lote }</td>
+                                </>
+                              )
+                            })
+                          }
+                          </tr>
+                        )
+                      })
+                  }
+                {/* </tr> */}
+              </table>
             </section>
 
         </div>

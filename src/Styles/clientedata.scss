@@ -1,0 +1,69 @@
+.cliente__App__container{
+  background-color: var(--background);
+  width: 100%;
+  min-height: 50vh;
+}
+
+.cliente__App__header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
+  text-align: center;
+
+  h4{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-transform: capitalize;
+    font-size: large;
+    
+  }
+  
+}
+
+.cliente__App_body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    p{
+      color: var(--rojo)
+    }
+    
+
+    form fieldset{
+      display: flex;
+      flex-direction: column;
+      margin: 20px;
+
+    }
+
+    fieldset legend{
+      text-transform: capitalize;
+      background-color: var(--esmeralda);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.25rem;
+      border-radius: 2px;
+    }
+
+    label{
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      font-size: medium;
+    }
+
+    label input {
+      border: none;
+      pad: 0.65rem;
+      height: 36px;
+      border-radius: 4px;
+    }
+    
+}

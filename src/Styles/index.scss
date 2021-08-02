@@ -1,3 +1,15 @@
+@import './cardproyectos.scss';
+@import './variables.scss';
+@import './fonts.scss';
+@import './header.scss';
+@import 'antd/dist/antd.css';
+@import './client.scss';
+@import './modales.scss';
+@import './animation.scss';
+@import './icons.scss';
+@import './clientedata.scss';
+@import './tablas.scss';
+
 body {
   background-color: var(--background);
   overflow-x: hidden;
@@ -29,8 +41,9 @@ code {
 
   .dashboard__header{
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     margin-bottom: 4rem;
+    padding-right: 10px;
 
     span{
       margin: 4px;
@@ -65,10 +78,20 @@ code {
   }
 
 }
+.btn{
+      margin: 2px;
+      width: 8rem;
+      background-color: white;
+      color: var(--esmeralda);
+      border: 1px solid var(--esmeralda);
+      padding: 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
 
-@import './cardproyectos.scss';
-@import './variables.scss';
-@import './fonts.scss';
-@import './header.scss';
-@import 'antd/dist/antd.css';
-@import './client.scss';
+    &:hover{
+      background-color: var(--esmeralda);
+      color: white;
+    }
+}
+
+
