@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMachine } from '@xstate/react'
 import { ClienteMachine } from 'context/ClienteDataMachine'
-import { useEffect } from 'react/cjs/react.development'
 
 const ClienteDataForm = ({ match, location }) => {
 
