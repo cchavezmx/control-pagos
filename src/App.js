@@ -30,8 +30,10 @@ function App () {
             render={(props) => <Proyecto { ...props } />}
             >            
           </Route>
-          <Route path="/cliente/:slug">
-            <Cliente />
+          <Route 
+            path="/cliente/:slug"
+            render={(props) => <Cliente { ...props } />}
+          >
           </Route>
 
           {/* /proyecto/6106f8b63f7b250b1c9687f8/cliente */}
