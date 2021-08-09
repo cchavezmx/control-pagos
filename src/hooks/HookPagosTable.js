@@ -39,7 +39,7 @@ const HookPagosTable = ({ pagoId }) => {
               <td>{ pago.refPago }</td>
               <td>{ <NumberFormat number={ pago.mensualidad } />}</td>                             
               <td className="estatus__menu">
-                  <button onClick={() => handlePagador(pago._id)}>Pagar</button>
+                  <button disabled={pago.status} onClick={() => handlePagador(pago._id)}>Pagar</button>
                   <button>Imprimir</button>
                 </td>
             </tr>
