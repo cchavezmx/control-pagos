@@ -13,8 +13,42 @@ const assignLoteToNewUser = async (ctx, { idProyecto, payload }) => {
   })
     .then(res => res.json())
     .then(res => res)
+    .catch(error => console.log(error))
 
-  console.log(response)
+  if (response.error) throw new Error('El usuario ya exite')
+  return response
+}
+
+const addPagoToLote = async (ctx, event) => {
+  
+  const response = await fetch(`${baseURL}/lote/pago`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event.data)
+  })
+    .then(res => res.json())
+    .then(res => res)
+    .catch(error => console.log(error))
+
+  if (response.error) throw new Error('Error al guardar el documento')
+  return response
+}
+
+const postPago = async (ctx, { idPago }) => {
+  
+  const response = await fetch(`${baseURL}/pagarnota/${idPago}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(res => res)
+    .catch(error => console.log(error))
+
+  if (response.error) throw new Error('Error al guardar el documento')
   return response
 }
 
@@ -44,9 +78,33 @@ export const ClienteMachine = createMachine({
           target: 'error'
         }
       }
+    },
+    addPagoToLote: {
+      invoke: {
+        src: addPagoToLote,
+        onDone: {
+          target: 'success'
+        },
+        onError: {
+          target: 'error'
+        }
+      }
+    },
+    postPago: {
+      invoke: {
+        src: postPago,
+        onDone: {
+          target: 'success'
+        },
+        onError: {
+          target: 'error'
+        }
+      }
     }
   },
   on: {
-    ASSIGN_LOTE_TO_NEW_USER: 'assignLoteToNewUser'
+    ASSIGN_LOTE_TO_NEW_USER: 'assignLoteToNewUser',
+    ADD_PAGO_LOTE: 'addPagoToLote',
+    POST__PAGAR: 'postPago'
   }
 })

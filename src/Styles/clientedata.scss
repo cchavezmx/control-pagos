@@ -5,6 +5,7 @@
 }
 
 .cliente__App__header{
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,16 +19,35 @@
     flex-direction: column;
     color: white;
     text-transform: capitalize;
-    font-size: large;
-    
+    font-size: x-large;  
   }
   
+}
+
+.expediente__data{
+  font-size: large;
+  section{
+    margin: 10px;
+  }
+
+  p{
+    margin: 0;
+    color: var(--black);
+    font-weight: bold;
+  }
+
 }
 
 .cliente__App_body {
     display: flex;
     justify-content: center;
-    flex-direction: column;
+
+    form{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      
+    }
 
     p{
       color: var(--rojo)
@@ -38,6 +58,7 @@
       display: flex;
       flex-direction: column;
       margin: 20px;
+      width: 500px;
 
     }
 

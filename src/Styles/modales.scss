@@ -85,6 +85,22 @@
 .modal__footer{
   display: flex;
   justify-content: center;
+  margin: 10px;
+
+  button{
+    margin: 4px;
+    width: 160px;
+    height: 47px;
+    background-color: var(--esmeralda);
+    color: white;
+    border: none;
+    cursor: pointer;
+
+  }
+
+  button:hover{
+    opacity: 0.75;
+  }
 }
 
 .error__message{
@@ -93,6 +109,116 @@
   text-align: center;
   color: var(--rojo);
 }
+
+.modal__pagos__clientes{
+  margin-top: 1.25rem;
+  width: 100%;
+  background-color: yellowgreen;
+  display: flex;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  
+  select{
+    width: 100%;
+    padding: 0.50rem;
+    font-size: x-large;
+    border: 0;
+  }
+
+  button{
+    width: 30%;
+    color: white;
+    border: 0;
+    background-color: var(--esmeralda);
+  }
+}
+
+.hook__pagos{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  label{
+    padding: 10px;
+    font-weight: bold;
+  }
+
+  input{
+    padding: 0.65rem;
+    margin: 3px;
+    border: 0;
+    box-shadow: var(--shadow);
+  }
+
+  input:invalid{
+    color: var(--rojo);
+  }
+
+  div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  div button{
+    width: 10rem;
+    padding: 0.60rem;
+    background-color: var(--esmeralda);
+    color: white;
+    border: 0;
+    box-shadow: var(--shadow);
+    margin: 4px;
+  }
+
+  button:hover{
+    opacity: 0.75;
+    cursor: pointer;
+  }
+
+}
+
+.estatus__menu{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    
+  button{
+    width: fit-content;
+    margin: 4px;
+
+    &:hover{
+      opacity: 0.75;
+    }
+  }
+
+}
+
+
+.tabla__edo__pagos{
+  width: 100%;
+  margin-bottom: 10px;
+
+  tr,th,td{
+    width: 100vh;
+    text-align: center;
+  }
+
+  th{
+    background-color: var(--esmeralda);
+    color: white;
+  }
+  
+  tr{
+    &:nth-child(2n + 1){
+      border-bottom: 1px solid #bdc3c7;
+      color: #34495e;
+    }
+  }
+
+}
+
+// MEDIAS //
 
 @media (max-width: 60rem){
   .modal__body{

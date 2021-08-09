@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-// import { clientes } from 'Models/clients'
+import NumberFormat from 'utils/NumberFormat'
 
 import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
 
@@ -32,7 +32,7 @@ const Proyecto = ({ match, history }) => {
                     pathname: `/proyecto/${proyecto._id}/cliente/nuevo`,
                     state: { proyecto: proyecto.title }
                   }}>
-                  <div type="button" className="ico__add__user"></div>
+                  <div type="button" title="añadir nuevo usuario al proyecto" className="ico__add__user"></div>
                   
                 </Link>
               </div>
@@ -42,7 +42,12 @@ const Proyecto = ({ match, history }) => {
                 </section>
             </section>
 
-            <section className="proyecto__table">
+              <form className="proyecto__input" onSubmit={(e) => e.preventDefault()}>
+                <input id="input__search__proyecto" placeholder="Buscar por nombre" />              
+                <button htmlFor="input__search__proyecto">Buscar</button>
+              </form>
+
+            <section className="proyecto__table">  
               <table>
                 <tr className="head__data__table">
                   <th>Nombre</th>
@@ -67,8 +72,8 @@ const Proyecto = ({ match, history }) => {
                               return (
                                 <>
                                 <td key={lote._id}>{ lote.lote }</td>
-                                <td key={lote.manzana}>{ lote.lote }</td>
-                                <td key={lote.precioTotal}>{ lote.lote }</td>
+                                <td>{ lote.manzana }</td>
+                                <td>{ <NumberFormat number={ lote.precioTotal }/>}</td>
                                 </>
                               )
                             })
@@ -80,7 +85,6 @@ const Proyecto = ({ match, history }) => {
                 {/* </tr> */}
               </table>
             </section>
-
         </div>
   )
 }

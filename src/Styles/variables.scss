@@ -11,10 +11,12 @@
         font-weight: bold;
     }
 
-    --shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    --shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
     --background: #ecf0f1;
     --normalFont: roboto;
     --esmeralda: #1EA69A;
+    --esmeralda_light: #8cc4bf;
     --black: #222f3e;
-    --rojo: #ee5253;
+    --rojo: #e74c3c;
 }
+

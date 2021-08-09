@@ -38,3 +38,25 @@
   }
 
 }
+
+.invoice__ico{
+  content: "";
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+
+  &::after{
+    content: url('../assets/icons/invoice.svg');
+    width: 86px;
+    height: 86px;
+
+  }
+
+  &:hover{
+    border: 2px solid transparent;
+  }
+}

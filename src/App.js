@@ -8,6 +8,7 @@ import Cliente from 'views/Cliente'
 import ClienteDataForm from 'views/ClienteDataForm'
 
 import { MayaAppMachineProvider } from 'context/MayaMachine'
+import AppContextProvider from 'context/AppContextProvider'
 
 function App () {
   return (
@@ -21,6 +22,7 @@ function App () {
       <Router>
         <Switch>
           <MayaAppMachineProvider>
+          <AppContextProvider>
           <Route path="/" exact={true}>
             <Dashboard />
           </Route>
@@ -43,6 +45,7 @@ function App () {
             >
           </Route>
           
+          </AppContextProvider>
           </MayaAppMachineProvider>
         </Switch>
       </Router>

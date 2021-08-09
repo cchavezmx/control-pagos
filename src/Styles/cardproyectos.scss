@@ -13,6 +13,10 @@
         
     }
 
+    &__container:hover{
+        opacity: 0.75;
+    }
+
     &__header{
         background-color: var(--esmeralda);
         border-radius: 4px 4px 0 0;

@@ -1,5 +1,5 @@
-// export const baseURL = 'http://localhost:3000/api/v1'
-export const baseURL = 'https://gpomaya.herokuapp.com/api/v1'
+export const baseURL = 'http://localhost:3000/api/v1'
+// export const baseURL = 'https://gpomaya.herokuapp.com/api/v1'
 
 class MayaMachineAPI {
   // todos los proyectos
@@ -49,7 +49,6 @@ class MayaMachineAPI {
   }
 
   static async createCLient (ctx, { payload }) {
-
     const res = await fetch(`${baseURL}/add/cliente`, {
       method: 'POST',
       headers: {

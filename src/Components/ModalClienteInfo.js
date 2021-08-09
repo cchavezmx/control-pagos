@@ -112,7 +112,3 @@ const ModalClienteInfo = () => {
 }
 
 export default ModalClienteInfo
-
-// TODO
-// 1 poder buscar el cliente
-// 1 con el id de pryecto crear la nota datos de pago, etc

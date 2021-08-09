@@ -8,7 +8,7 @@ const ClienteDataForm = ({ match, location }) => {
   const [showCliente, setShowCliente] = useState(false)
   const handleShowCliente = () => setShowCliente(!showCliente)
 
-  const [showLote, setShowLote] = useState(true)
+  const [showLote, setShowLote] = useState(false)
   const handleShowLote = () => setShowLote(!showLote)
   
   const [showPago, setShowPago] = useState(true)
@@ -35,10 +35,14 @@ const ClienteDataForm = ({ match, location }) => {
       <div className="cliente__App__header">
         <h4>Añadir usuario <br/> proyecto: { proyecto } </h4>
       </div>
-
-      <section className="cliente__App_body">
-      { state.matches('documentSave') && <span>Se guardo documento</span>}
-      
+      <div className="notification">
+          <button className="btn" onClick={() => history.back()}>
+            Regresar
+          </button>
+          { state.matches('documentSave') && <span className="notification__success">¡Exito al guardar el Cliente!</span>}
+          { state.matches('error') && <span className="notification__error">El usuario ya existe</span> }
+      </div>
+      <section className="cliente__App_body">      
       <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
                   <legend onClick={() => handleShowCliente() }>
@@ -92,6 +96,10 @@ const ClienteDataForm = ({ match, location }) => {
                   </label>
                   {/* TODO para adjuntar la foto */}
                   </div>
+                    <div className="modal__footer">
+                      <button type="submit">Guardar</button>
+                      <button tyepe="reset" onClick={() => reset()}>Borrar Campos</button>
+                    </div>
                 </fieldset>
                 
                 <fieldset>
@@ -99,6 +107,17 @@ const ClienteDataForm = ({ match, location }) => {
                         Asginación de Lote
                         <button className="button__acordeon"></button>
                     </legend>
+
+                  <label htmlFor="inicioControl">
+                    Inicio de Contrato
+                    <input 
+                      id="inicioControl"
+                      type="date"
+                      min={0}
+                      aria-invalid={errors.inicioControl ? 'true' : 'false' }
+                      { ...register('inicioControl', { required: true })}          
+                      />
+                  </label> 
 
                   <div hidden={showLote}>
                     <label htmlFor="lote">
@@ -120,7 +139,7 @@ const ClienteDataForm = ({ match, location }) => {
                         type="number"
                         min={0}
                         aria-invalid={errors.manzana ? 'true' : 'false' }
-                        { ...register('manzana', { required: true, min: 1 })}          
+                        { ...register('manzana', { min: 1 })}          
                         />
                         {errors.manzana ? <p>Ingrese un número valido</p> : null }
                     </label>
@@ -185,17 +204,6 @@ const ClienteDataForm = ({ match, location }) => {
                         {errors.mensualidad ? <p>Campo Obligatorio</p> : null }
                     </label>
 
-                    {/* <label htmlFor="mensualidad">
-                      Mensualidad
-                      <input 
-                        id="mensualidad"
-                        type="number"
-                        min={0}
-                        aria-invalid={errors.mensualidad ? 'true' : 'false' }
-                        { ...register('mensualidad', { required: true })}          
-                        />
-                    </label> */}
-
                   </div>
                 </fieldset>
 
@@ -242,11 +250,6 @@ const ClienteDataForm = ({ match, location }) => {
                   </div>
                     </fieldset>  
                   }
-
-                <div className="modal__footer">
-                  <button type="submit">Guardar</button>
-                  <button tyepe="reset" onClick={() => reset()}>Borrar Campos</button>
-                </div>
               </form>
 
       </section>
