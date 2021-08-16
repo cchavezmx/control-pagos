@@ -36,13 +36,14 @@ const addPagoToLote = async (ctx, event) => {
   return response
 }
 
-const postPago = async (ctx, { idPago }) => {
+const postPago = async (ctx, { idPago, payload }) => {
   
   const response = await fetch(`${baseURL}/pagarnota/${idPago}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify(payload)
   })
     .then(res => res.json())
     .then(res => res)

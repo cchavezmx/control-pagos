@@ -17,9 +17,6 @@ const Proyecto = ({ match, history }) => {
 
   const { proyecto, lotes } = state.context
 
-  // 1preimero obetenemos los clientes
-  console.log(lotes, history)
-
   return (
         // @params proyecto css
         <div className="proyecto__container">
@@ -32,7 +29,8 @@ const Proyecto = ({ match, history }) => {
                     pathname: `/proyecto/${proyecto._id}/cliente/nuevo`,
                     state: { proyecto: proyecto.title }
                   }}>
-                  <div type="button" title="añadir nuevo usuario al proyecto" className="ico__add__user"></div>
+                  <div type="button" title="añadir nuevo usuario al proyecto" className="ico__add__user">
+                  </div>
                   
                 </Link>
               </div>

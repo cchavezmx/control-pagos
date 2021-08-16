@@ -28,11 +28,15 @@ const TablaClienteInfo = ({ cliente, lotes, pagos }) => {
 
   return (
     <>
+      {/* Modal para añadir pago */}
       <ModalPagosClient 
         openModalPago={openModalPago} 
         handledOpen={handleModalPago}
         lotes={lotes} 
+        pagos={pagos}
         />
+
+        {/* expediente de cliente */}
         <Modal
           title="Expediente del Cliente"
           visible={expediente}
@@ -71,7 +75,8 @@ const TablaClienteInfo = ({ cliente, lotes, pagos }) => {
         className="invoice__ico" 
         title="Generar pago"
         onClick={() => handleModalPago()}
-      >
+        >
+        <small>Nuevo Pago</small>
       </div>
 
       </section>

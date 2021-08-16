@@ -4,7 +4,7 @@ import BuscadorMachine from 'context/BuscadorMachine'
 
 import TablaClienteInfo from 'Components/TablaClienteInfo'
 
-const Cliente = ({ history, match }) => {
+const Cliente = ({ match }) => {
 
   const [state, send] = useMachine(BuscadorMachine)
 
@@ -13,7 +13,6 @@ const Cliente = ({ history, match }) => {
   }, [])
 
   const { cliente, lotes, pagos } = state.context
-  console.log({ cliente, lotes, pagos })
   
   return (
         <div className="cliente__App__container">

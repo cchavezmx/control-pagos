@@ -133,6 +133,8 @@
   }
 }
 
+
+// hooks pagos table
 .hook__pagos{
   width: 100%;
   display: flex;
@@ -145,6 +147,13 @@
   }
 
   input{
+    padding: 0.65rem;
+    margin: 3px;
+    border: 0;
+    box-shadow: var(--shadow);
+  }
+
+  select{
     padding: 0.65rem;
     margin: 3px;
     border: 0;
@@ -222,15 +231,58 @@
 
 }
 
+.form__liquid__pago{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  
+  label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: medium;
+
+    small{
+      color: #bdc3c7;
+    }
+
+    input{      
+      width: 100%;
+      padding: 0.65rem;
+      border: none;
+      box-shadow: var(--shadow);
+
+      &:invalid{
+        color: var(--rojo)
+      }
+    }
+
+  }
+
+  button{
+    margin-top: 2rem;
+    background-color: var(--esmeralda);
+    border: none;
+    box-shadow: var(--shadow);
+    padding: 0.65rem;
+    color: white;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.65;
+    }
+
+  }
+
+}
+
 // MEDIAS //
 
 @media (max-width: 60rem){
   .modal__body{
     left: 30px;
     width: 300px;
-
-    button{
-      width: 8rem;
-    }
   }
 }

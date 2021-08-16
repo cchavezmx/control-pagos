@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './Styles/index.scss'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import 'Components/CardProyectos'
 
 import Dashboard from 'views/Dashboard'
@@ -38,7 +38,6 @@ function App () {
           >
           </Route>
 
-          {/* /proyecto/6106f8b63f7b250b1c9687f8/cliente */}
           <Route 
             path="/proyecto/:idProyecto/cliente/:idCliente"
             render={(props) => <ClienteDataForm { ...props } /> }

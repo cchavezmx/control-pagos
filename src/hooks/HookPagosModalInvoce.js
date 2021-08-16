@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom'
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useMachine } from '@xstate/react'
 import { ClienteMachine } from 'context/ClienteDataMachine'
+
+import Notify from 'utils/Notify'
 
 const HookPagosModalInvoce = ({ lotes, proyecto }) => {
 
@@ -25,7 +27,16 @@ const HookPagosModalInvoce = ({ lotes, proyecto }) => {
     return lote
   }, [proyecto])
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const [notifyHandled, setNotifyHandled] = useState(false)
+  const setNotify = useCallback(() => {
+    setNotifyHandled(true)
+    setTimeout(() => {
+      setNotifyHandled(false)
+    }, 2000)
+
+  })
+
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       lote: loteProject?.lote,
       mensualidad: loteProject?.mensualidad
@@ -33,27 +44,40 @@ const HookPagosModalInvoce = ({ lotes, proyecto }) => {
   })
 
   const onSubmit = (data) => {
-    console.log({ errors, estado: state.value })
-
     const payload = {
       cliente: item?._id,
       proyecto: proyecto,
       lote: loteProject._id,
-      mes: data.mes,
+      mes: new Date(data.mes),
       refPago: data.refPago,
-      mensualidad: data.mensualidad 
+      mensualidad: data.mensualidad,     
+      tipoPago: data.tipoPago 
     }
     send('ADD_PAGO_LOTE', { data: payload })
+    setNotify()
   }
+
+  useEffect(() => {
+    if (state.matches('success')) {
+      return reset()
+    }
+  }, [state.value])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="hook__pagos">
 
-      <label>Numeo de Lote</label>
+      <label>Numero de Lote</label>
       <input placeholder="lote" id="lote" {...register('lote')} />
 
       <label>Fecha de Pago</label>
       <input type="date" required placeholder="Ingresar Mes de pago" id="mes" {...register('mes', { required: true })} />
+
+      <label>Tipo de Pago</label>
+      <select defaultValues="normal" name="tipoPago" {...register('tipoPago')} >
+        <option value="mensualidad">Pago Mensual</option>
+        <option value="extra">Pago Extraordinario</option>
+        <option value="acreditado">Acreditado</option>
+      </select>
 
       <label>Referencia de Pago</label>
       <input placeholder="Referencia de Pago" id="refPago" {...register('refPago')} />
@@ -63,6 +87,7 @@ const HookPagosModalInvoce = ({ lotes, proyecto }) => {
 
       <div>
         <button type="submit">Generar Pago</button>
+        { notifyHandled && <Notify errorType="success" msg="Pago Generado" /> }
       </div>
     </form>
   )

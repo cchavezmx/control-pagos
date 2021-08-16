@@ -65,6 +65,24 @@
 
 }
 
+.tag__normal{
+  background-color: var(--esmeralda);
+  color: white;
+  padding: 0.25rem;
+}
+
+.tag__extra{
+  background-color: #f39c12;
+  color: white;
+  padding: 0.25rem;
+}
+
+.tag__acreditado{
+  background-color: #9b59b6;
+  padding: 0.25rem;
+  color: white;
+}
+
 
 .tabla__data td {
   padding: 4px;
@@ -86,7 +104,7 @@
 }
 
 .cliente__App__pagos{
-  margin: 4rem;
+  margin: 1rem;
 }
 
 @media (max-width:60rem){

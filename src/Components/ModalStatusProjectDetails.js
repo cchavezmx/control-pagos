@@ -3,25 +3,19 @@ import { baseURL } from 'context/controllers'
 import { Modal } from 'antd'
 
 import NumberFormat from 'utils/NumberFormat'
-/**
- * Con lote ID debemos obtener el incio de contrato
- * Las mensualidades pendientes que se obetienen del total de pagos menos el numero de plazo
- * El financiamiento pendiente se debe de obtener del financiamiento menos la suma de pagos realizados
- */
 
 const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
-
-  console.log(loteid)
 
   const [estatus, setEstus] = useState([])
   const [loading, setLoading] = useState(false)
   
   const statusPagosPendiente = (payload) => {
-    const totalPagos = payload[0]?.pagos.filter(item => item.status === true).length
     const plazo = payload[0]?.plazo
     
+    const totalPagos = payload[0]?.pagos.filter(item => item.status === true && item.tipoPago !== 'extra').length
     const diffPagos = plazo - totalPagos
-    const pendiente = payload[0]?.pagos.filter(item => item.status === false).length
+    
+    const pendiente = payload[0]?.pagos.filter(item => item.status === false && item.tipoPago !== 'extra').length
       
     return { totalPagos, plazo, diffPagos, pendiente }
   }
@@ -30,10 +24,15 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
     const financiamiento = payload[0]?.financiamiento
     
     const pagoRealizado = payload[0]?.pagos
-      .filter(item => item.status === true)
+      .filter(item => item.status === true && item.tipoPago !== 'extra')
       .map(item => item.mensualidad)
       .reduce((acc, val) => +acc + +val, [])
     
+    const intereses = payload[0]?.pagos
+      .filter(item => item.status === true && item.tipoPago === 'extra')
+      .map(item => item.mensualidad)
+      .reduce((acc, val) => +acc + +val, [])
+            
     const pagoPorRealizar = payload[0]?.pagos
       .filter(item => item.status === false)
       .map(item => item.mensualidad)
@@ -41,7 +40,7 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
 
     const restante = financiamiento - pagoRealizado
     
-    return { financiamiento, pagoRealizado, pagoPorRealizar, restante }
+    return { financiamiento, pagoRealizado, pagoPorRealizar, restante, intereses }
   }
 
   const plazoStatus = statusPagosPendiente(estatus)
@@ -89,6 +88,7 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
           <tr>
             <th>Total</th>
             <th>Pagado</th>
+            <th>Intereses</th>
             <th>Por Pagar</th>
             <th>Restantes</th>
           </tr>
@@ -97,6 +97,7 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
         <tr>
           <td>{ NumberFormat({ number: financiamento?.financiamiento })}</td>
           <td>{ NumberFormat({ number: financiamento?.pagoRealizado })}</td>
+          <td>{ NumberFormat({ number: financiamento?.intereses })}</td>
           <td>{ NumberFormat({ number: financiamento?.pagoPorRealizar })}</td>
           <td>{ NumberFormat({ number: financiamento?.restante })}</td>
         </tr>
