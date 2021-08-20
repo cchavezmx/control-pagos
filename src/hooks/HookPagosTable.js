@@ -7,6 +7,9 @@ import BuscadorMachine from 'context/BuscadorMachine'
 import NumberFormat from 'utils/NumberFormat'
 import DateIntlFormat from 'utils/DateIntlFormat'
 
+import { saveAs } from 'file-saver'
+import { baseURL } from 'context/controllers'
+
 const HookPagosTable = ({ pagoId }) => {
   
   const [state, send] = useMachine(BuscadorMachine)
@@ -18,6 +21,25 @@ const HookPagosTable = ({ pagoId }) => {
   const handlePagador = (idPago) => {
     setModalPago(true)
     setIdPago(idPago)
+  }
+
+  const pdfCreator = ({ data } = {}) => {
+
+    console.log(data)
+
+    fetch(`${baseURL}/pdf?folio=${data._id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).then(res => {
+      return res
+        .arrayBuffer()
+        .then(res => {
+          const blob = new Blob([res], { type: 'applicacion/pdf' })
+          saveAs(blob, `ITAMX_${data._id}.pdf`)      
+        })
+        .catch(error => console.log(error))
+    })
   }
 
   return (
@@ -38,10 +60,10 @@ const HookPagosTable = ({ pagoId }) => {
         <>   
           <tr 
             key={pago._id} 
-            id="row_info_pago"
-            className="tabla__data"
+            id='row_info_pago'
+            className='tabla__data'
             >
-              <td><DateIntlFormat date={pago.mes} dateStyle="medium" /></td>
+              <td><DateIntlFormat date={pago.mes} dateStyle='medium' /></td>
               <td
                 className={ pago.status ? 'tabla__data__pagado' : 'tabla__data__pendding' }
               >
@@ -52,9 +74,9 @@ const HookPagosTable = ({ pagoId }) => {
               <td>{ pago.refPago }</td>
               <td><span className={tipoPagoClass}>{ pago.tipoPago }</span></td>
               <td>{ <NumberFormat number={ pago.mensualidad } />}</td>                             
-              <td className="estatus__menu">
+              <td className='estatus__menu'>
                   <button disabled={pago.status} onClick={() => handlePagador(pago._id)}>Pagar</button>
-                  <button>Imprimir</button>
+                  <button onClick={() => pdfCreator({ data: pago })}>Imprimir</button>
                 </td>
             </tr>
         </>
