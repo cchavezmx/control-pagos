@@ -58,6 +58,17 @@ const getPagosInfo = async (ctx, event) => {
 
 }
 
+const useSearch = async (ctx, { keyword }) => {
+  
+  const query = await fetch(`${baseURL}/search?user=${keyword}`)
+    .then(res => res.json())
+    .then(res => res.message)
+    .catch(err => console.log(err))
+
+  return query
+
+}
+
 const BuscadorMachine = createMachine({
   id: 'buscador',
   initial: 'iddle',
@@ -79,6 +90,20 @@ const BuscadorMachine = createMachine({
           target: 'success',
           actions: assign({
             busqueda: (ctx, event) => event.data
+          })
+        },
+        onError: {
+          target: 'error'
+        }
+      }
+    },
+    userSearch: {
+      invoke: {
+        src: useSearch,
+        onDone: {
+          target: 'success',
+          actions: assign({
+            busqueda: (ctx, evt) => evt.data 
           })
         },
         onError: {
@@ -154,7 +179,8 @@ const BuscadorMachine = createMachine({
       }
     },
     GET_LOTES: 'getLotesInfo',
-    GET_PAGOS_INFO: 'getPagosInfo'
+    GET_PAGOS_INFO: 'getPagosInfo',
+    USER_SEARCH: 'userSearch'
   }
   
 })

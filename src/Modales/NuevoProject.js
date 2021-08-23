@@ -1,23 +1,17 @@
-import { useState, useRef, useEffect } from 'react'
+
+import { Modal } from 'antd'
 import { useForm } from 'react-hook-form'
 
 import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
+import { useEffect } from 'react'
 
-const ModalProyecto = () => {
+const NuevoPoject = ({ visible, onCancel }) => {
 
-  const [show, setShow] = useState(true)
-  const handleShow = () => setShow(!show)
-  
-  const blackdropRef = useRef()
-  useEffect(() => {
-    blackdropRef.current?.addEventListener('click', function () {
-      setShow(true)
-    })
-  }, [])
-  
+  console.log({ visible, onCancel })
+
   const dispatch = useMayaDispatch()
   const state = useMayaState()
-  
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm()
   const onSubmit = (data) => {
     
@@ -27,25 +21,21 @@ const ModalProyecto = () => {
     }
 
     dispatch('POST_PROYECTOS', { payload })
+
   }
 
   useEffect(() => {
-    return function cleanUp () {
-      reset()
-    }
-  }, [show])
-
-  useEffect(() => {
-    if (state?.matches('success')) {
-      return reset()
-    }
-  }, [state])
+    if (!open) reset()
+  }, [open])
 
   return (
+    <Modal
+     visible={visible}
+     onCancel={onCancel}
+     footer={null}
+    >
     <div className="modal">
-      <section className="modal__container" hidden={show}>
-
-        <section ref={blackdropRef} className="modal__black__drop"/>
+      <section className="modal__container">
         <section className="modal__card">
             <div className="modal__body"> 
 
@@ -81,17 +71,16 @@ const ModalProyecto = () => {
                 </fieldset>
                 <div className="modal__footer">
                   <button type="submit">Guardar</button>
-                  <button tyepe="reset" onClick={() => setShow(true)}>Cerrar</button>
+                  <button tyepe="reset" onClick={() => onCancel(true)}>Cerrar</button>
                 </div>
               </form>
 
             </div>
         </section>
-
       </section>
-      <button onClick={() => handleShow() } className="btn">Nuevo Proyecto</button>
     </div>
+    </Modal>
   )
 }
 
-export default ModalProyecto
+export default NuevoPoject

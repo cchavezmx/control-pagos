@@ -89,8 +89,6 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
             <th>Total</th>
             <th>Pagado</th>
             <th>Intereses</th>
-            <th>Por Pagar</th>
-            <th>Restantes</th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +96,12 @@ const ModalStatusProjectDetails = ({ loteid, openModal, handledModal }) => {
           <td>{ NumberFormat({ number: financiamento?.financiamiento })}</td>
           <td>{ NumberFormat({ number: financiamento?.pagoRealizado })}</td>
           <td>{ NumberFormat({ number: financiamento?.intereses })}</td>
+        </tr>
+        <tr>
+          <th>Por Pagar</th>
+          <th>Restantes</th>
+        </tr>
+        <tr>
           <td>{ NumberFormat({ number: financiamento?.pagoPorRealizar })}</td>
           <td>{ NumberFormat({ number: financiamento?.restante })}</td>
         </tr>

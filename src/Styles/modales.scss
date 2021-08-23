@@ -21,12 +21,8 @@
 }
 
 .modal__body{
-  position: absolute;
-  background-color: var(--background);
   border-radius: 4px;
-  left: calc(35% + 1em);
-  top: calc(10px + 1em);
-  width: 400px;
+  width: 100%;
   height: fit-content;
   padding: 8px;
   color: var(--black);
@@ -44,9 +40,7 @@
     display: flex;
     padding: 10px;
     flex-direction: column;
-    border: 1px solid #8395a7;
     margin-bottom: 10px;
-    
   }
   
   label{
@@ -60,6 +54,7 @@
     width: 100%;
     padding: 0.65rem;
     border: transparent 1px solid;
+    box-shadow: var(--shadow);
   }
 
   button{
@@ -210,7 +205,7 @@
 .tabla__edo__pagos{
   width: 100%;
   margin-bottom: 10px;
-
+  
   tr,th,td{
     width: 100vh;
     text-align: center;
@@ -228,6 +223,56 @@
     }
   }
 
+}
+
+.modal__search__users{
+  width: 100%;
+
+  thead{
+    background-color: var(--esmeralda);
+    color: white;
+  }
+
+
+  td,
+  th{
+    padding: 0.25rem;
+  }
+
+  tbody tr:nth-child(2n+2){
+    background-color: var(--esmeralda_light);
+  }
+
+  tbody tr{
+    border-bottom: 1px solid var(--black);
+  }
+
+  button{
+    width: 100%;
+    border: none;
+    background-color: var(--black);
+    color: white;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.65;
+    }
+  }
+
+}
+
+.modal__user__existente{
+  input{
+    width: 100%;
+    border: none;
+    box-shadow: var(--shadow);
+    padding: 0.65rem;
+    margin: 10px 0;
+  }
+}
+
+.tabla__edo__pagos{
+  width: 100%;
 }
 
 .form__liquid__pago{
@@ -271,6 +316,29 @@
 
     &:hover{
       opacity: 0.65;
+    }
+
+  }
+
+}
+
+.form__detalle__pago{
+  display: flex;
+  flex-direction: column;
+  
+  label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    font-size: 15px;
+    font-weight: bold;
+
+    input{
+      border: none;
+      box-shadow: var(--shadow);
+      padding: 0.65rem;
+      font-size: 15px;
     }
 
   }

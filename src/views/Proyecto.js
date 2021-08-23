@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import NumberFormat from 'utils/NumberFormat'
 
 import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
@@ -24,27 +23,12 @@ const Proyecto = ({ match, history }) => {
 
               <div className="proyecto__header__title">
                 { state.matches('success') && <h3>{ proyecto?.title }</h3>}
-                <Link 
-                  to={{ 
-                    pathname: `/proyecto/${proyecto._id}/cliente/nuevo`,
-                    state: { proyecto: proyecto.title }
-                  }}>
-                  <div type="button" title="añadir nuevo usuario al proyecto" className="ico__add__user">
-                  </div>
-                  
-                </Link>
               </div>
           
                 <section className="proyecto__data__info">
                     {/* INFORMACION ESTATISTICO DEL PROYECTO */}
                 </section>
             </section>
-
-              <form className="proyecto__input" onSubmit={(e) => e.preventDefault()}>
-                <input id="input__search__proyecto" placeholder="Buscar por nombre" />              
-                <button htmlFor="input__search__proyecto">Buscar</button>
-              </form>
-
             <section className="proyecto__table">  
               <table>
                 <tr className="head__data__table">

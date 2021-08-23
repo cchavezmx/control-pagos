@@ -4,9 +4,6 @@ import CardProyectos from 'Components/CardProyectos'
 
 import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
 
-import ModalProyecto from 'Components/ModalProyecto'
-import Buscador from 'Components/Buscador'
-
 const Dashboard = () => {
 
   const state = useMayaState()
@@ -22,10 +19,6 @@ const Dashboard = () => {
   return (
         <div id="Dashboard">
             <section className="dashboard__header">
-                <Buscador />
-            </section>
-            <section>
-                <ModalProyecto />
             </section>
             <section className="cards">
                 {

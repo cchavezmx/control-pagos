@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import { useMachine } from '@xstate/react'
 import { ClienteMachine } from 'context/ClienteDataMachine'
 
+import HookNameProjectById from 'hooks/HookNameProjectById'
+
 const ClienteDataForm = ({ match, location }) => {
 
   const [showCliente, setShowCliente] = useState(false)
@@ -11,11 +13,12 @@ const ClienteDataForm = ({ match, location }) => {
   const [showLote, setShowLote] = useState(false)
   const handleShowLote = () => setShowLote(!showLote)
   
-  const [showPago, setShowPago] = useState(true)
-  const handleShowPago = () => setShowPago(!showPago)
+  // const [showPago, setShowPago] = useState(true)
+  // const handleShowPago = () => setShowPago(!showPago)
 
-  const { idProyecto, idCliente } = match.params
+  const { idProyecto } = match.params
   const { proyecto } = location.state
+    
   const [state, send] = useMachine(ClienteMachine)
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm()
@@ -29,11 +32,13 @@ const ClienteDataForm = ({ match, location }) => {
     }
   }, [state.value])
   
+  const { loading, project } = HookNameProjectById({ id: proyecto })
+
   return (
 
     <div className="cliente__App__container">
       <div className="cliente__App__header">
-        <h4>Añadir usuario <br/> proyecto: { proyecto } </h4>
+        <h4>Añadir usuario <br/> proyecto: { loading && project?.title } </h4>
       </div>
       <div className="notification">
           <button className="btn" onClick={() => history.back()}>
@@ -206,50 +211,6 @@ const ClienteDataForm = ({ match, location }) => {
 
                   </div>
                 </fieldset>
-
-                  { idCliente !== 'nuevo' &&
-                    <fieldset>
-                      <legend onClick={() => handleShowPago()}>
-                        Agregar un pago
-                        <button className="button__acordeon"></button>
-                      </legend>
-                  
-                  <div hidden={showPago}>
-                    <label htmlFor="mes">
-                        Mes
-                        <input 
-                          id="mes"
-                          type="text"
-                          aria-invalid={errors.mes ? 'true' : 'false' }
-                          { ...register('mes', { required: false })}          
-                          />
-                      </label>
-
-                    <label htmlFor="refPago">
-                        Referencia de pago
-                        <input 
-                          id="refPago"
-                          type="number"
-                          min={0}
-                          aria-invalid={errors.refPago ? 'true' : 'false' }
-                          { ...register('refPago', { required: false })}          
-                          />
-                      </label>
-
-                    <label htmlFor="cantidad">
-                        Cantidad depositada
-                        <input 
-                          id="cantidad"
-                          type="number"
-                          min={0}
-                          aria-invalid={errors.cantidad ? 'true' : 'false' }
-                          { ...register('cantidad', { required: false })}          
-                          />
-                      </label>
-
-                  </div>
-                    </fieldset>  
-                  }
               </form>
 
       </section>

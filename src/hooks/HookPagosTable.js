@@ -1,5 +1,5 @@
 
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { AppContext } from 'context/AppContextProvider'
 
@@ -10,12 +10,17 @@ import DateIntlFormat from 'utils/DateIntlFormat'
 import { saveAs } from 'file-saver'
 import { baseURL } from 'context/controllers'
 
+import DetallePago from 'Models/DetallePago'
+
 const HookPagosTable = ({ pagoId }) => {
   
   const [state, send] = useMachine(BuscadorMachine)
   useEffect(() => {
     send('GET_PAGOS_INFO', { id: pagoId })
   }, [pagoId])
+
+  const [openDetalle, setOpenDetalle] = useState(false)
+  const handledDetalle = () => setOpenDetalle(!openDetalle)
 
   const { setModalPago, setIdPago } = useContext(AppContext)
   const handlePagador = (idPago) => {
@@ -25,7 +30,12 @@ const HookPagosTable = ({ pagoId }) => {
 
   const pdfCreator = ({ data } = {}) => {
 
-    console.log(data)
+    const folioDate = new Date(data.mes)
+    const dayFolio = folioDate.getDay()
+    const mesFolio = folioDate.getMonth()
+    const yearFolio = folioDate.getFullYear()
+
+    console.log(folioDate) 
 
     fetch(`${baseURL}/pdf?folio=${data._id}`, {
       headers: { 'Content-Type': 'application/json' },
@@ -36,14 +46,16 @@ const HookPagosTable = ({ pagoId }) => {
         .arrayBuffer()
         .then(res => {
           const blob = new Blob([res], { type: 'applicacion/pdf' })
-          saveAs(blob, `ITAMX_${data._id}.pdf`)      
+          saveAs(blob, `${data.dataClient[0].nombre}_${dayFolio}${mesFolio}${yearFolio}.pdf`)      
         })
         .catch(error => console.log(error))
     })
   }
 
+  const { pago } = state.context
+
   return (
-    state.matches('success') && state.context.pago
+    state.matches('success') && pago
       .map((pago) => {
         
         let tipoPagoClass = 'tag__normal'
@@ -76,9 +88,15 @@ const HookPagosTable = ({ pagoId }) => {
               <td>{ <NumberFormat number={ pago.mensualidad } />}</td>                             
               <td className='estatus__menu'>
                   <button disabled={pago.status} onClick={() => handlePagador(pago._id)}>Pagar</button>
-                  <button onClick={() => pdfCreator({ data: pago })}>Imprimir</button>
+                  <button disabled={!pago.status} onClick={() => handledDetalle()}>Ver</button>
+                  <button disabled={!pago.status} onClick={() => pdfCreator({ data: pago })}>Imprimir</button>
                 </td>
             </tr>
+            <DetallePago 
+              visible={openDetalle} 
+              onCancel={handledDetalle} 
+              info={pago} 
+            />
         </>
         )
       })

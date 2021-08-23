@@ -1,7 +1,8 @@
 
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Modal } from 'antd'
 
+import { AppContext } from 'context/AppContextProvider'
 import HookNameProjectById from 'hooks/HookNameProjectById'
 import ModalPagosClient from './ModalPagosClient'
 import TablaPagosClient from './TablaPagosClient'
@@ -10,9 +11,6 @@ import ModalStatusProjectDetails from './ModalStatusProjectDetails'
 import NumberFormat from 'utils/NumberFormat'
 
 const TablaClienteInfo = ({ cliente, lotes, pagos }) => {
-
-  const [openModalPago, SetOpenModalPago] = useState(false)
-  const handleModalPago = () => SetOpenModalPago(!openModalPago)
 
   const [expediente, setExpediente] = useState(false)
   const handleModal = () => setExpediente(!expediente)
@@ -25,6 +23,8 @@ const TablaClienteInfo = ({ cliente, lotes, pagos }) => {
     setLoteId(loteId)
     handledProjectStatus()
   }
+
+  const { openModalPago, handleModalPago } = useContext(AppContext)
 
   return (
     <>
@@ -71,14 +71,6 @@ const TablaClienteInfo = ({ cliente, lotes, pagos }) => {
 
       <section className="cliente__App__header">
       <h4>{ cliente && cliente.nombre }</h4>
-      <div 
-        className="invoice__ico" 
-        title="Generar pago"
-        onClick={() => handleModalPago()}
-        >
-        <small>Nuevo Pago</small>
-      </div>
-
       </section>
       <section className="cliente__App__body">
               <button onClick={handleModal}>
