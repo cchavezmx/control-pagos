@@ -13,17 +13,40 @@ const ClienteDataForm = ({ match, location }) => {
   const [showLote, setShowLote] = useState(false)
   const handleShowLote = () => setShowLote(!showLote)
   
-  // const [showPago, setShowPago] = useState(true)
-  // const handleShowPago = () => setShowPago(!showPago)
-
   const { idProyecto } = match.params
-  const { proyecto } = location.state
+  const { proyecto, user } = location.state
+
+  const defaultValues = () => {
+    if (typeof user === 'undefined') {
+      return {
+        nombre: '',
+        address: '',
+        phone: '',
+        email: ''
+      }
+    } else if (typeof user !== 'undefined') {
+      return {
+        nombre: user?.nombre,
+        address: user?.address,
+        phone: user?.phone,
+        email: user?.email
+      }
+    }
+  }
     
   const [state, send] = useMachine(ClienteMachine)
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    defaultValues: defaultValues()
+  })
+  
   const onSubmit = (data) => {
-    send('ASSIGN_LOTE_TO_NEW_USER', { idProyecto, payload: data })
+    
+    if (typeof user !== 'undefined') {
+      send('ADD_LOTE_USER', { idProyecto, payload: { ...data, idUser: user._id } })
+    } else if (typeof user === 'undefined') {
+      send('ASSIGN_LOTE_TO_NEW_USER', { idProyecto, payload: data })
+    }
   }
 
   useEffect(() => {
@@ -144,7 +167,7 @@ const ClienteDataForm = ({ match, location }) => {
                         type="number"
                         min={0}
                         aria-invalid={errors.manzana ? 'true' : 'false' }
-                        { ...register('manzana', { min: 1 })}          
+                        { ...register('manzana')}          
                         />
                         {errors.manzana ? <p>Ingrese un número valido</p> : null }
                     </label>
@@ -215,7 +238,6 @@ const ClienteDataForm = ({ match, location }) => {
 
       </section>
       <div className="cliente_App_footer">
-
       </div>
 
     </div>

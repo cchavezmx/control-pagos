@@ -42,8 +42,6 @@ class MayaMachineAPI {
     const request = await fetch(`${baseURL}/lotes/proyecto/${proyecto._id}`)
       .then(res => res.json())
       .then(res => res.message)
-
-    console.log(request)
     return request
 
   }

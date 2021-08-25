@@ -5,6 +5,7 @@ import 'Components/CardProyectos'
 import Dashboard from 'views/Dashboard'
 import Proyecto from 'views/Proyecto'
 import Cliente from 'views/Cliente'
+import ClienteFluid from 'views/ClienteFluid'
 import ClienteDataForm from 'views/ClienteDataForm'
 
 import { MayaAppMachineProvider } from 'context/MayaMachine'
@@ -32,23 +33,33 @@ function App () {
           </Route>
 
           <Route 
+            exact={true}
+            path="/proyecto/:slug/:projectName" 
+            render={(props) => <Proyecto { ...props } />}
+            >            
+          </Route>
+
+          {/* Parte del flujo */}
+          <Route 
+            exact={true}
+            path="/detalle/lote/:idlote/cliente/:clienteSlug/projecto/:projectSlug"
+            render={(props) => <ClienteFluid { ...props } />}
+          >
+          </Route>
+
+          {/* complementarios */}
+          <Route 
             path="/cliente/:slug"
             render={(props) => <Cliente { ...props } />}
           >
           </Route>
 
           <Route 
-            path="/proyecto/:idProyecto/cliente/:idCliente"
+            path="/add/proyecto/:idProyecto/cliente/:idCliente"
             render={(props) => <ClienteDataForm { ...props } /> }
             >
           </Route>
 
-          <Route 
-            exact={true}
-            path="/proyecto/:slug" 
-            render={(props) => <Proyecto { ...props } />}
-            >            
-          </Route>
       </div>
           </AppContextProvider>
           </MayaAppMachineProvider>

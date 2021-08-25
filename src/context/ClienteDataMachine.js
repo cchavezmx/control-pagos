@@ -53,6 +53,25 @@ const postPago = async (ctx, { idPago, payload }) => {
   return response
 }
 
+const addLoteToUser = async (ctx, { idProyecto, payload }) => {
+
+  console.log({ idProyecto })
+  
+  const response = await fetch(`${baseURL}/add/lote/user/${idProyecto}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(res => res)
+    .catch(error => console.log(error))
+
+  if (response.error) throw new Error('Error al guardar el documento')
+  return response
+}
+
 export const ClienteMachine = createMachine({
   id: 'clienteMachine',
   initial: 'iddle',
@@ -101,11 +120,24 @@ export const ClienteMachine = createMachine({
           target: 'error'
         }
       }
+    },
+    addLoteToUser: {
+      invoke: {
+        src: addLoteToUser,
+        onDone: {
+          target: 'documentSave'
+        },
+        onError: {
+          target: 'error'
+        }
+      }
     }
   },
+  
   on: {
     ASSIGN_LOTE_TO_NEW_USER: 'assignLoteToNewUser',
     ADD_PAGO_LOTE: 'addPagoToLote',
-    POST__PAGAR: 'postPago'
+    POST__PAGAR: 'postPago',
+    ADD_LOTE_USER: 'addLoteToUser'
   }
 })

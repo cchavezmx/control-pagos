@@ -10,10 +10,8 @@ const Dashboard = () => {
   const dispatch = useMayaDispatch()
 
   const { proyectos } = state.context
-
   useEffect(() => {
     dispatch('GET_PROYECTOS')
-    
   }, [])
 
   return (
@@ -22,10 +20,10 @@ const Dashboard = () => {
             </section>
             <section className="cards">
                 {
-                  state.matches('success') && proyectos.map(({ title, _id }) => {
+                  state.matches('success') && proyectos.map(({ title, _id, activos }) => {
                     return (
-                      <Link key={_id} to={`/proyecto/${_id}`} >
-                          <CardProyectos name={ title.toUpperCase() }/>
+                      <Link key={_id} to={`/proyecto/${_id}/${title}`} >
+                          <CardProyectos name={ title.toUpperCase() } clientes={activos}/>
                       </Link>
                     )
                   })

@@ -2,13 +2,8 @@ import { useEffect, useState } from 'react'
 import { baseURL } from 'context/controllers'
 
 const HookNameProjectById = ({ id }) => {
-
-  console.log(id)
-
   const [project, setProject] = useState(undefined)
   const [loading, setLoading] = useState(false)
-
-  console.log(project)
 
   useEffect(() => {    
     const fetchPoject = async () => {

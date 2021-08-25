@@ -7,8 +7,6 @@ import { useEffect } from 'react'
 
 const NuevoPoject = ({ visible, onCancel }) => {
 
-  console.log({ visible, onCancel })
-
   const dispatch = useMayaDispatch()
   const state = useMayaState()
 

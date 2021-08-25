@@ -1,73 +1,87 @@
 import { useEffect } from 'react'
 import NumberFormat from 'utils/NumberFormat'
+import { Link } from 'react-router-dom'
 
 import { useMayaDispatch, useMayaState } from 'context/MayaMachine'
 
-const Proyecto = ({ match, history }) => {
+const Proyecto = ({ match }) => {
 
   const state = useMayaState()
   const dispatch = useMayaDispatch()
   
-  const { slug } = match.params
+  const { slug, projectName } = match.params
 
   useEffect(() => {
     dispatch('GET_DATA', { id: slug })
   }, [match])
 
-  const { proyecto, lotes } = state.context
-
+  const { proyecto } = state.context
+      
   return (
-        // @params proyecto css
-        <div className="proyecto__container">
-            <section className="proyecto__header">
+    // @params proyecto css
+    <div className="proyecto__container">
+    <section className="proyecto__header">
 
-              <div className="proyecto__header__title">
-                { state.matches('success') && <h3>{ proyecto?.title }</h3>}
-              </div>
-          
-                <section className="proyecto__data__info">
-                    {/* INFORMACION ESTATISTICO DEL PROYECTO */}
-                </section>
-            </section>
-            <section className="proyecto__table">  
-              <table>
-                <tr className="head__data__table">
-                  <th>Nombre</th>
-                  <th>Lote</th>
-                  <th>Manzana</th>
-                  <th>Precio Total</th>
-                </tr>
-                {/* <tr> */}
+      <div className="proyecto__header__title">
+        <h3>{ projectName }</h3>
+      </div>
+  
+        <section className="proyecto__data__info">
+            {/* INFORMACION ESTATISTICO DEL PROYECTO */}
+        </section>
+    </section>
+    <section className="proyecto__table">  
+      <table>
+        <tr className="head__data__table">
+          <th>Lote</th>
+          <th>Manzana</th>
+          <th>Precio Total</th>
+          <th>Cliente</th>
+          <th>Acciones</th>
+        </tr>
+        {
+          state.matches('success') &&
+          Object.values(proyecto)
+            .filter(item => item.clienteData.length > 0)
+            .map((item, index) => {
+              const loteInfo = [item]
+              const loteid = item.lote
+              return (
+                <tr 
+                  key={index} 
+                  className="tabla__data"
+                  >
+                  <td>{ item.lote }</td>
+                  <td>{ item.manzana }</td>
+                  <td>{ <NumberFormat number={item.precioTotal}/> }</td>
                   {
-                    state.matches('success') &&
-                    Object.values(lotes)
-                      .map((item) => {
+                    Object.values(item.clienteData)
+                      .map(item => {
                         return (
-                          <tr 
-                            key={item._id} 
-                            className="tabla__data"
-                            onClick={() => history.push({ pathname: `/cliente/${item._id}`, state: { item } })}
-                            >
-                            <td>{ item.nombre }</td>
-                          {
-                            item.lotes.map(lote => {
-                              return (
-                                <>
-                                <td key={lote._id}>{ lote.lote }</td>
-                                <td>{ lote.manzana }</td>
-                                <td>{ <NumberFormat number={ lote.precioTotal }/>}</td>
-                                </>
-                              )
-                            })
-                          }
-                          </tr>
-                        )
+                        <>
+                        <td key={item._id}>
+                            { item.nombre }
+                        </td>
+                        <td>
+                          <Link
+                            to={{
+                              pathname: `/detalle/lote/${loteid}/cliente/${item.nombre}/projecto/${projectName}`,
+                              state: loteInfo
+                            }}>
+                            <button>Ver</button>
+                          </Link>
+                        </td>
+                        </>
+                        ) 
                       })
                   }
-                {/* </tr> */}
-              </table>
-            </section>
-        </div>
+                </tr>
+              )
+            })
+        }
+      </table>
+    </section>
+    </div>
   )
 }
 

@@ -4,8 +4,7 @@ import { AppContext } from 'context/AppContextProvider'
 import HookPagosTable from 'hooks/HookPagosTable'
 import ModalEstatus from './ModalEstatus'
 
-const TablaPagosClient = ({ pagos }) => {
-
+const TablaPagosClient = ({ pagos, lote }) => {
   const { modalPago, setModalPago } = useContext(AppContext)
 
   return (
@@ -37,7 +36,7 @@ const TablaPagosClient = ({ pagos }) => {
             Object.values(pagos)
               .map(pagos => {
                 return (
-                  <HookPagosTable key={pagos._id} pagoId={pagos._id}/>
+                  <HookPagosTable key={pagos._id} pagoId={pagos._id} lote={lote}/>
                 )
               })
           }

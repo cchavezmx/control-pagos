@@ -36,9 +36,9 @@ const fetchGetLotesInfo = async ({ clientId }, event) => {
 
 }
 
-const fetchGetPagosInfo = async ({ clientId }, event) => {
+const fetchGetPagosInfo = async (ctx, event) => {
   
-  const query = await fetch(`${baseURL}/cliente/pagos/${clientId}`)
+  const query = await fetch(`${baseURL}/showinfoinvoice/${event.id}`)
     .then(res => res.json())
     .then(res => res.message)
     .catch(err => console.log(err))
@@ -48,8 +48,10 @@ const fetchGetPagosInfo = async ({ clientId }, event) => {
 }
 
 const getPagosInfo = async (ctx, event) => {
-  
-  const query = await fetch(`${baseURL}/showinfoinvoice/${event.id}`)
+
+  const { idProject, clientID } = event.query
+    
+  const query = await fetch(`${baseURL}/pagos/${idProject}?idcliente=${clientID}`)
     .then(res => res.json())
     .then(res => res.message)
     .catch(err => console.log(err))
@@ -62,8 +64,13 @@ const useSearch = async (ctx, { keyword }) => {
   
   const query = await fetch(`${baseURL}/search?user=${keyword}`)
     .then(res => res.json())
-    .then(res => res.message)
-    .catch(err => console.log(err))
+    .then(res => {
+      if (Object.values(res.message).length === 0) throw new Error('No existen usarios con tus criterios de busqueda')
+      return res.message
+    })
+    .catch(err => {
+      throw new Error({ err })
+    })
 
   return query
 
@@ -77,6 +84,7 @@ const BuscadorMachine = createMachine({
     cliente: [],
     lotes: [],
     pagos: [],
+    pago: [],
     clientId: undefined
   },
   states: {
@@ -129,9 +137,9 @@ const BuscadorMachine = createMachine({
       invoke: {
         src: fetchGetLotesInfo,
         onDone: {
-          target: 'pagos',
+          target: 'success',
           actions: assign({
-            lotes: (ctx, evt) => evt.data 
+            pagos: (ctx, evt) => evt.data 
           })
         },
         onError: {
@@ -139,13 +147,13 @@ const BuscadorMachine = createMachine({
         }
       }
     },
-    pagos: {
+    getInfoPago: {
       invoke: {
         src: fetchGetPagosInfo,
         onDone: {
           target: 'success',
           actions: assign({
-            pagos: (ctx, evt) => evt.data 
+            pago: (ctx, evt) => evt.data 
           })
         },
         onError: {
@@ -159,14 +167,17 @@ const BuscadorMachine = createMachine({
         onDone: {
           target: 'success',
           actions: assign({
-            pago: (ctx, evt) => evt.data 
+            pagos: (ctx, evt) => evt.data 
           })
         },
         onError: {
           target: 'error'
         }
       }
-    }    
+    },
+    removeUserLote: () => {
+      
+    }
   },
   on: {
     BUSCAR: 'busqueda',
@@ -180,9 +191,16 @@ const BuscadorMachine = createMachine({
     },
     GET_LOTES: 'getLotesInfo',
     GET_PAGOS_INFO: 'getPagosInfo',
-    USER_SEARCH: 'userSearch'
+    USER_SEARCH: 'userSearch',
+    GET_INFO_PAGO: 'getInfoPago',
+    REMOVE_USER_LOTE: 'removeUserLote'
   }
   
 })
 
 export default BuscadorMachine
+
+/*
+  GET_INFO_PAGO: traer toda la informacion del pago
+  GET_PAGOS_INFO: traer todos los pagos por proyecto
+*/

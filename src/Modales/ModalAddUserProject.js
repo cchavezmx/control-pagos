@@ -1,7 +1,10 @@
+import { useEffect } from 'react'
 import { Modal } from 'antd'
 import { useForm } from 'react-hook-form'
 import { useMachine } from '@xstate/react'
 import BuscadorMachine from 'context/BuscadorMachine'
+
+import { useLocation, useHistory } from 'react-router-dom'
 
 const ModalAddUserProject = ({ visible, onCancel }) => {
 
@@ -12,14 +15,28 @@ const ModalAddUserProject = ({ visible, onCancel }) => {
     send('USER_SEARCH', { keyword: data.keyword })
   }
 
-  const goToUser = () => {
+  const location = useLocation()
+  const history = useHistory()
 
+  const goToUser = (user) => {
+    const idProject = location.pathname.split('/')[2]
+    
+    history.push({ 
+      pathname: `/add/proyecto/${idProject}/cliente/${user._id}`,
+      state: { proyecto: idProject, user }
+
+    })
   }
 
   const setCancel = () => {
     onCancel(false)
     reset()
   }
+
+  useEffect(() => {
+    onCancel(false)
+    reset()
+  }, [location])
 
   const { busqueda } = state.context
 
@@ -30,14 +47,18 @@ const ModalAddUserProject = ({ visible, onCancel }) => {
       title="Añadir Usuario Existente"
       footer={null}
     >
+    { state.matches('error') && <p className="error__message">No hay usuario que coincidan con tu búsqueda</p>}
     <form onSubmit={handleSubmit(submitUser)} className="modal__user__existente">
-     <input 
-      placeHolder="Ingresa el nombre del cliente"
-      type="search"
-      name="keyword"
-      { ...register('keyword')}
-     >
-     </input> 
+      
+      <label>
+        <input 
+        placeHolder="Buscar nombre del cliente"
+        type="search"
+        name="keyword"
+        { ...register('keyword')}
+        />
+        <button></button>
+      </label>
     </form>
 
     {
@@ -57,7 +78,7 @@ const ModalAddUserProject = ({ visible, onCancel }) => {
               </td>
               <td>
                 <button
-                  onClick={() => goToUser(user._id)}>Agregar</button>
+                  onClick={() => goToUser(user)}>Agregar</button>
               </td>
             </tr>
             )

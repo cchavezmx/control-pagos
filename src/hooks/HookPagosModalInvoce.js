@@ -1,5 +1,4 @@
-import { useLocation } from 'react-router-dom'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useMachine } from '@xstate/react'
@@ -7,25 +6,9 @@ import { ClienteMachine } from 'context/ClienteDataMachine'
 
 import Notify from 'utils/Notify'
 
-const HookPagosModalInvoce = ({ lotes, proyecto }) => {
+const HookPagosModalInvoce = ({ lote }) => {
 
-  const location = useLocation()
-  const { item } = location.state
-  
   const [state, send] = useMachine(ClienteMachine)
-
-  const loteProject = useMemo(() => {
-    let lote     
-    Array.isArray(lotes) && 
-      lotes.filter(project => {
-        if (project.proyecto[0] === proyecto) {
-          lote = { lote: project.lote, mensualidad: project.mensualidad, _id: project._id }
-        }
-        return lote
-      })
-
-    return lote
-  }, [proyecto])
 
   const [notifyHandled, setNotifyHandled] = useState(false)
   const setNotify = useCallback(() => {
@@ -38,16 +21,16 @@ const HookPagosModalInvoce = ({ lotes, proyecto }) => {
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      lote: loteProject?.lote,
-      mensualidad: loteProject?.mensualidad
+      lote: lote?.lote,
+      mensualidad: lote?.mensualidad
     }
   })
 
   const onSubmit = (data) => {
     const payload = {
-      cliente: item?._id,
-      proyecto: proyecto,
-      lote: loteProject._id,
+      cliente: lote.cliente,
+      proyecto: lote.proyecto,
+      lote: lote._id,
       mes: new Date(data.mes),
       refPago: data.refPago,
       mensualidad: data.mensualidad,     

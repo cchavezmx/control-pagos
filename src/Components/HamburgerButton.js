@@ -8,6 +8,8 @@ import Buscador from './Buscador'
 import { AppContext } from 'context/AppContextProvider'
 import ModalAddUserProject from 'Modales/ModalAddUserProject'
 
+import ModalRemoveClient from 'Modales/ModalRemoveClient'
+
 const HamburgerButton = () => {
 
   const { handleModalPago } = useContext(AppContext)
@@ -15,22 +17,44 @@ const HamburgerButton = () => {
   const location = useLocation()
   const history = useHistory()
   const params = location.pathname.split('/')
-  console.log(params)
-
+  
   const idPoject = () => {
     if (params.includes('proyecto')) {
-      return params[params.length - 1]
+      return params[params.length - 2]
+      
     }
   }
   
   const [openHamburger, setOpenHAmburger] = useState(true)
   const toggleHaburger = () => setOpenHAmburger(!openHamburger)
-
+  
   const [openProject, setOpenProject] = useState(false)
-  const handleProjectModal = () => setOpenProject(!openProject)
+  const handleProjectModal = () => {
+    setOpenProject(!openProject)
+    toggleHaburger()
+  }
 
+  const nuevoLoteClient = () => {
+    history.push({ pathname: `/add/proyecto/${idPoject()}/cliente/nuevo`, state: { proyecto: idPoject() } })
+    toggleHaburger()
+  }
+  
   const [handleAddUser, setHandledAddUser] = useState(false)
-  const toogleHandledUser = () => setHandledAddUser(!handleAddUser)
+  const toogleHandledUser = () => {
+    setHandledAddUser(!handleAddUser)
+    toggleHaburger()
+  }
+
+  const modalPagoBurger = () => {
+    handleModalPago()
+    toggleHaburger()
+  }
+
+  const [removeModal, setRemoveModal] = useState(false)
+  const handleRemoveUser = () => {
+    setRemoveModal(!removeModal)
+    toggleHaburger()
+  }
 
   return (
     <>
@@ -74,7 +98,7 @@ const HamburgerButton = () => {
         { params.includes('proyecto') && !params.includes('cliente') && 
         <>
           <button
-          onClick={() => history.push({ pathname: `/proyecto/${idPoject()}/cliente/nuevo`, state: { proyecto: idPoject() } })}
+          onClick={() => nuevoLoteClient()}
           className="btn__esmeralda"
           >
           <div className="ico__user"></div>
@@ -90,7 +114,9 @@ const HamburgerButton = () => {
           </button>
           
           <div className="separacion__menu" />
-          <button className="menu__hamburger__btn__red">
+          <button 
+            onClick={handleRemoveUser}
+            className="menu__hamburger__btn__red">
             <div className="ico__user__morosos"></div>
               Remover Cliente
           </button>
@@ -98,11 +124,11 @@ const HamburgerButton = () => {
         }
 
         {
-          params.includes('cliente') && !params.includes('nuevo') && 
+          params.includes('lote') && params.includes('cliente') && params.includes('projecto') &&
         <>
           <button
             className="btn__esmeralda"
-            onClick={() => handleModalPago()}
+            onClick={() => modalPagoBurger()}
             >
             <div className="invoice__ico"></div>
             Generar Pago
@@ -116,6 +142,7 @@ const HamburgerButton = () => {
     </div>
     <NuevoPoject visible={openProject} onCancel={handleProjectModal} />
     <ModalAddUserProject visible={handleAddUser} onCancel={setHandledAddUser} />
+    <ModalRemoveClient visible={removeModal} onCancel={handleRemoveUser} />
   </>
   )
 }

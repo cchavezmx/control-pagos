@@ -1,5 +1,5 @@
 
-const CardProyectos = ({ name }) => {
+const CardProyectos = ({ name, clientes }) => {
   return (
         <div className="card__proyectos__container">
             <div className="card__proyectos__header">
@@ -12,8 +12,8 @@ const CardProyectos = ({ name }) => {
                     />
             </section>
             <div className="card__proyectos__footer">
-                <p>Clientes Activos:</p>
-                <p>200</p>
+                <p>Lotes Activos:</p>
+                <p>{clientes.length}</p>
             </div>
         </div>
   )
