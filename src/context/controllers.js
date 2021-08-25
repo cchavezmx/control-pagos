@@ -1,5 +1,5 @@
 // export const baseURL = 'http://localhost:3000/api/v1'
-export const baseURL = 'https://gpomaya-ma.herokuapp.com/api/v1'
+export const baseURL = 'https://gpomaya-xa.herokuapp.com/api/v1'
 
 class MayaMachineAPI {
   // todos los proyectos
